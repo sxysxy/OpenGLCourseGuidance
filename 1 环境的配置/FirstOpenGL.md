@@ -36,8 +36,18 @@
 
 &emsp; &emsp;据说计算机图形学课程最让人头疼的问题就是配置一个可以编译和运行OpenGL应用程序的环境。<del> 相传有同学从课程开始到结束都没能配出环境，如果找助教帮忙他们会先让你装个VS2013再说 </del>。依照前面说的，本教程使用freeglut和glew两个第三方库。freeglut是一个用来创建支持OpenGL渲染的窗口，以及能够处理键盘鼠标等输入的库，并且使用起来相当简单(相比于直接使用Windows API创建OpenGL设备上下文(Device Context)和渲染上下文(Render Context)，或是其它类似的库例如glfw)。glew是一个让你能够使用现代OpenGL特性的库(由于微软公司有自家的产品Direct3D与OpenGL是竞争对手关系，Windows系统自带的OpenGL API只支持到OpenGL1.1，为了能使用更新的OpenGL需要glew)。
 
-&emsp; &emsp;freeglut和glew的文件我已经打包整合到一起，可以前往<a href="https://pan.baidu.com/s/1cwnPLTeflOh_lo85ILwJUQ">百度网盘</a>下载，提取码: ed1h。下面把它们安装到你的Visual studio里面
+&emsp; &emsp;freeglut和glew的文件我已经打包整合到一起，可以前往<a href="https://pan.baidu.com/s/1cwnPLTeflOh_lo85ILwJUQ">百度网盘</a>下载，提取码: ed1h。下面把它们安装到你的Visual studio里面（这个方法适用于VS2015,2017,2019及以上）:
 
+<li> 解压网盘下载的OpenGLENV.zip，进入后看到这三个文件夹：</li>
+
+<img src="./install1.png" style="width: 100%;">
+
+<li> 找到Windows Development Kits的安装路径，一般是在 C:\Program Files (x86)\Windows Kits下</li>
+
+如果你电脑是Windows 10系统，那么会在里面看到一个叫“10”的文件夹，进入：
+
+
+<img src="./windows10.png" style="width: 100%;">
 
 
 ## 自测题目&启示
