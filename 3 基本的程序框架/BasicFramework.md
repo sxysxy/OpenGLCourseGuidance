@@ -107,7 +107,7 @@ void initGL() {
 }
 ```
 
-&emsp;&emsp; 在main函数内glutCreateWindow之后调用initGL函数即可，之后就可以使用现代OpenGL特性了。这段代码是固定的，也很好理解，便再作解释。之后的教程的代码也会原封不动地复制粘贴使用。
+&emsp;&emsp; MessageBox可以弹出对话框展示提示信息。在main函数内glutCreateWindow之后调用initGL函数即可，之后就可以使用现代OpenGL特性了。这段代码是固定的，也很好理解，便不再作解释。之后的教程的代码也会原封不动地复制粘贴使用。
 
 本次教程的完整代码见<a href="./Code">这里</a>
 
@@ -131,4 +131,4 @@ int main(int argc, char *argv[]) {
     return 0;
 }
 ```
-成功编译，然而运行却一直提示初始化GLEW失败，请指出其问题。 </li>
+成功编译，然而运行却弹出对话框提示初始化GLEW失败，请指出其问题。 </li>
