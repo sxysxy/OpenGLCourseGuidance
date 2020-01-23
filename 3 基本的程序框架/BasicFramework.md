@@ -109,6 +109,8 @@ void initGL() {
 
 &emsp;&emsp; 在main函数内glutCreateWindow之后调用initGL函数即可，之后就可以使用现代OpenGL特性了。这段代码是固定的，也很好理解，便再作解释。之后的教程的代码也会原封不动地复制粘贴使用。
 
+本次教程的完整代码见<a href="./Code">这里</a>
+
 ## 自测题目&启示
 
 <li> 简述双缓冲机制的工作方式(题库原题) </li>
