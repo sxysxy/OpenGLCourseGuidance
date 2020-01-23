@@ -46,7 +46,7 @@ int main(int argc, char* argv[]) {
 &emsp;&emsp;接下来glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE) 指定了屏幕上绘制的图像的像素格式为(R,G,B,A)，使用**双缓冲**机制。
 &emsp;&emsp;这里简单解释一下双缓冲机制：首先说一下缓冲区(Buffer)，缓冲区是一个很广泛的概念在之前的C/C++语言的学习中也有，OpenGL中如果不特别说明，缓冲区是指暂时置放输出或输入资料的主存或显存，它可以储存顶点或者图像等的数据。双缓冲机制使用两个缓冲区储存两个图像的数据，其中一个缓冲区储存在窗口中显示的图像，被成为屏幕缓冲区(Onscreen Buffer)，因为它表示的图像被展示在屏幕上，是可见的。另一个缓冲区表示的图像不再屏幕上，不可见，被成为后台缓冲区或者离屏缓冲区(Offscreen Buffer)。
 
-<img src="./onsrceen-offscreen.png">
+<img src="./onscreen-offscreen.png">
 
 我们把绘制图像的一系列操作在离屏缓冲区上完成，每次绘制完成后将屏幕缓冲区与离屏缓冲区交换，使得离屏缓冲区变为屏幕缓冲区，而之前的屏幕缓冲区变为离屏缓冲区，从而使得刚完成的绘制能够被呈现到屏幕上，同时避免了直接在屏幕缓冲区上绘制易造成画面异常(例如闪烁)等问题。
 
@@ -69,8 +69,7 @@ void keyEvent(unsigned char key, int, int) {
     printf("%c", key);   //参数key直接给出了输入的字符
 }
 void specialKeyEvent(int keyCode, int, int) {
-    switch (keyCode)     //通过keyCode的值判断是哪个特殊键
-    {
+    switch (keyCode) {    //通过keyCode的值判断是哪个特殊键
     case GLUT_KEY_F1:    //F1
         exit(0);         //实现按下F1退出程序
         break;
@@ -90,7 +89,42 @@ void specialKeyEvent(int keyCode, int, int) {
 
 ## glew 
 
+&emsp;&emsp;glew是一个跨平台的可以帮助C/C++开发者初始化高版本OpenGL API的工具，本教程也正是借助它的力量能够顺利使用OpenGL4.0。它的使用也很简单，在main函数之前加入这段代码:
 
+```C++
+void initGL() {
+    GLenum err = glewInit();  //初始化
+    if (err != GLEW_OK) {
+        MessageBox(0, TEXT("初始化GLEW失败"), TEXT("错误"), 0);
+        exit(1);
+    }
+    if (!GLEW_VERSION_4_0) {  //检查OpenGL4.0支持
+        MessageBox(0, TEXT("本计算机未支持OpenGL4.0"), TEXT("错误"), 0);
+        exit(1);
+    }
+}
+```
 
+&emsp;&emsp; 在main函数内glutCreateWindow之后调用initGL函数即可，之后就可以使用现代OpenGL特性了。这段代码是固定的，也很好理解，便再作解释。之后的教程的代码也会原封不动地复制粘贴使用。
 
+## 自测题目&启示
 
+<li> 简述双缓冲机制的工作方式(题库原题) </li>
+
+<li> 一位同学写了这么一段代码：
+
+```C++
+//略去头文件，库文件的引入以及initGL, render函数的定义
+int main(int argc, char *argv[]) {
+    glutInit(&argc, argv);
+    glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE);
+    glutInitWindowSize(233, 233);
+    initGL();
+    glutCreateWindow("emmmmmmm");
+    glViewport(0, 0, 233, 233);
+    glutDisplayFunc(render);
+    glutMainLoop();
+    return 0;
+}
+```
+成功编译，然而运行却一直提示初始化GLEW失败，请指出其问题。 </li>
