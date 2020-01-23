@@ -3,6 +3,8 @@
 
 转载请保留出处
 
+如果jio得不错，帮到了你，按***hub老规矩给个Star呗，或者可以<a href="https://github.com/sxysxy/OpenGLCourseGuidance/blob/master/wow.png">打赏</a>一下。
+
 # 目录：
 
 ## <li> <a href="https://github.com/sxysxy/OpenGLCourseGuidance/blob/master/1%20%E7%8E%AF%E5%A2%83%E7%9A%84%E9%85%8D%E7%BD%AE/FirstOpenGL.md">计算机图形学&OpenGL系列教程（一） OpenGL环境的配置</a>
