@@ -40,12 +40,11 @@ public:
     }
     Matrix4(const std::initializer_list<Vector4> &vs) {
         assert(vs.end() - vs.begin() == 4);
-        for (int i = 0; i < 4; i++) for (int j = 0; j < 4; j++) {  //将输入的数据转置储存
+        for (int i = 0; i < 4; i++) for (int j = 0; j < 4; j++) {  //因为OpenGL矩阵是列优先矩阵，这里将输入的数据转置储存
             data[i][j] = (*(vs.begin() + j))[i];
         }
     }
     //索引。注意OpenGL矩阵的第i行第j列元素存放在data[j][i]
-    //重载括号运算符，接受两个参数i,j。可以使用对象(i,j)读写第i行第j列的元素
     float& operator()(int i, int j) { return data[j][i]; }
     const float& operator()(int i, int j) const { return data[j][i]; }
     using float4 = Vector4;
@@ -55,12 +54,10 @@ public:
     //下面两个成员函数在对象被强制转换为void*时调用
     operator void* () const { return const_cast<float4*>(data); }
     operator void* () { return data; }
-    //assignment overload
     Matrix4& operator=(const Matrix4& m) {
         memcpy(data, (float4*)m, sizeof(data));
         return *this;
     }
-    //矩阵乘法运算
     Matrix4& multiple(const Matrix4& m) {
         float4 tmp[4];
         for (int i = 0; i < 4; i++) {
@@ -79,10 +76,23 @@ public:
         data[0][0] = data[1][1] = data[2][2] = data[3][3] = 1.0;
         return *this;
     }
-}
+};
 ```
 
-## 
+## 坐标与坐标变换
+
+&emsp;&emsp;计算机图形学要解决的一个基本问题便是如何将三维空间物体呈现在计算机的显示器上。同时方法还要足够方便，灵活，能够充分利用计算机强大的数字计算能力。将三维物体呈现在二维介质上的问题，从很久之前就被研究了，数百年前(也许是上千年前?)画家们就已经有了成熟的技术使得一副图像看起来有较强立体感。想象你站在一条笔直向前的街道上，向前方望去，你会发现，越向远方看去，本是平行的街道两边，竟然
+会挨得越来越近，最终消失在同一点。因此画家们定义出了“消失点(Vanish point)”：
+
+<img src="./PerspectiveWithVanishPoint.png">
+
+那么上图中本来是矩形的红色砖块，就会变形称为梯形，而且水平方向本应同等长度的平行线，却有着“近大远小”的特点。依照在朝向远处的消失点的一对平行线延长将会相交于消失点，以及“近大远小”规律，就可以以此在2维平面上做出有立体感的矩形，立方体等。上面提到的只是所谓的“一点透视”，更加复杂一些的本教程不再讲述，<del>有兴趣同学假期宅着太闲的话可以去学画画。</del>除此之外，光照，图形表面的细节也有助于提高其立体感，这在之后的教程中会提到。
+
+&emsp;&emsp;计算机图形学为了在计算机上完成这个任务，借助线性代数中基变换和坐标变换的方式，完成三维图形的点坐标到屏幕上二维坐标的变换。相关线性代数内容可以参阅<a href="https://wenku.baidu.com/view/fe772ad2195f312b3169a575.html">百度文库</a><del>或者拿出大一上学期线性代数课本好吧我知道你扔了</del>
+
+### 局部空间
+
+
 
 
 

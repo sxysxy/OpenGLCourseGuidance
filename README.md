@@ -1,7 +1,9 @@
 # OpenGLCourseGuidance
 北京交通大学2020年春季学期计算机学院计算机图形学课程指导教程
 
-转载请保留出处
+&emsp;&emsp;教程同时注重理论和实践，既尽可能地涉及到计算机图形学的算法原理，包括坐标系变换公式的推导方法，OpenGL图形库的机制等，同时也注重实践，配有充足的代码并对C++编程技巧有讲解。希望大家图形学都要拿个A鸭。
+
+转载教程内容请保留出处。
 
 如果jio得不错，帮到了你，按***hub老规矩给个Star呗，或者可以<a href="https://github.com/sxysxy/OpenGLCourseGuidance/blob/master/wow.png">打赏</a>一下。
 
