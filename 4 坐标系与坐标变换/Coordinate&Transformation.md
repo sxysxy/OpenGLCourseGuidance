@@ -171,10 +171,11 @@ public:
 
 #### 旋转(R变换) 
 
-&emsp;&emsp;旋转变换则要复杂许多，一个比较好的旋转模型是，绕一个给定的轴n，围绕n旋转θ角。下面给出旋转变换的原理和公式推导方法：假设给出的转轴n长度为1（即<img src="./formula/vecn" height="15px">是单位向量），要旋转的向量(点也成立，这里以向量为例)为<img src="./formula/vecv" height="15px">，完成旋转后的向量为<img src="./formula/rnvecv" height="15px">。
+&emsp;&emsp;旋转变换则要复杂许多，一个比较好的旋转模型是，绕一个给定的轴n，围绕n旋转θ角。下面给出旋转变换的原理和公式推导方法：假设给出的转轴n长度为1（即<img src="./formula/vecn.gif" height="15px">是单位向量），要旋转的向量(点也成立，这里以向量为例)为<img src="./formula/vecv.gif" height="15px">，完成旋转后的向量为<img src="./formula/rnvecv.gif" height="15px">。
 
 <img src="./formula/Rotate.png">
 
+&emsp;&emsp;首先将<img src="./formula/vecv.gif" height="15px">分解为两部分，一部分平行于<img src="./formula/vecn.gif" height="15px">而另一部分垂直于<img src="./formula/vecn.gif" height="15px">，平行于<img src="./formula/vecn.gif" height="15px">的分量即为<img src="./formula/vecv.gif" height="15px">在<img src="./formula/vecn.gif" height="15px">上的投影<img src="./formula/Projnv.gif" height="15px">，则另一分量可以得出<img src="./formula/vecvperpeqs.gif" height="15px">
 
 
 
