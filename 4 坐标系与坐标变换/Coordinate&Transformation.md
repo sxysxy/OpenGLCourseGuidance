@@ -213,10 +213,13 @@ public:
 <img src="./formula/RotateNote1.jpg">
 
 <img src="./formula/Rotate.png">
+(上图来自Introduction to 3D Game Programming with Directx 11的Figure3.3)
 
 <img src="./formula/RotateNote2.jpg">
 
 <img src="./formula/RotateCirclePane.jpg">
+
+(上图来自Introduction to 3D Game Programming with Directx 11的Figure3.3)
 
 <img src="./formula/RotateNote3.jpg">
 
@@ -245,6 +248,20 @@ public:
 #### 平移(T变换)
 
 <img src="./formula/TranslateNote.jpg">
+
+代码：
+
+```C++
+    //平移变换
+    Matrix4& translate(float tx, float ty, float tz) {
+        Matrix4 m;
+        m(0, 3) = tx;
+        m(1, 3) = ty;
+        m(2, 3) = tz;
+        multiple(m);
+        return *this;
+    }
+```
 
 ### V变换
 
