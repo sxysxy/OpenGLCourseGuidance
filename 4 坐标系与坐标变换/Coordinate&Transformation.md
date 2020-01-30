@@ -171,11 +171,15 @@ public:
 
 #### 旋转(R变换) 
 
-<img src="./formula/RotateNote1.png">
+(由于github Readme不支持latex，下文部分内容包含数学公式过多，因此使用Latex排版后截图放在这里，手机上可能观看不方便)
+
+<img src="./formula/RotateNote1.jpg">
 
 <img src="./formula/Rotate.png">
 
-<img src="./formula/RotateNote2.png">
+<img src="./formula/RotateNote2.jpg">
+
+<img src="./formula/RotateCirclePane.jpg">
 
 #### 平移(T变换)
 
