@@ -143,13 +143,13 @@ public:
 
 ### 首先说坐标系
 
-&emsp;&emsp; 在进入屏幕空间之前，OpenGL和我们在线性代数课程中所学一样使用右手坐标系，即x轴正方向在纸面内水平向右，y轴正方向在纸面内竖直向上，z轴正方向垂直纸面向外。如下图的右边的坐标系所示:
+&emsp;&emsp; 在进入所谓的NDC空间之前，OpenGL和我们在线性代数课程中所学一样使用右手坐标系，即x轴正方向在纸面内水平向右，y轴正方向在纸面内竖直向上，z轴正方向垂直纸面向外。如下图的右边的坐标系所示。而下图中左边的是左手坐标系。
 
 <img src="./LeftRightHandCoordinate.png">
 
 (图片来自书籍 Introduction to 3D Game Programming with Directx 11的"向量代数"章节Figure1.5)
 
-&emsp;&emsp; 之后所讲的坐标变换方法在左手坐标系中也都成立，但要注意Z轴的方向相反。在自测题目中会有左手坐标系有关的题目。
+&emsp;&emsp; 之后所讲的坐标变换方法主要是在右手坐标系中进行的，但是在左手坐标系中也都成立，要注意Z轴的方向相反。在自测题目中会有左手坐标系有关的题目。
 
 ### 局部空间
 
@@ -175,7 +175,7 @@ public:
 
 ### NDC空间
 
-&emsp;&emsp; 完成P变换后，物体各个点坐标(x, y, z, w)都除以w分量，变为(x', y', z', 1)，且满足各个x,y,z各个分量都在\[-1, 1]之间（这个所谓的“透视除法”是OpenGL自动完成的，不需要编程中刻意去做，为什么满足这个坐标范围之后投影变换部分会讲）。NDC空间下的坐标与最终呈现图像的设备的尺寸，宽高比等都无关，使的图形能摆脱对支撑软件、具体物理设备的依赖性，也方便能在不同应用和不同系统之间交换图形信息。 一个初学者常有的误区是，坐标永远都应该在\[-1, 1]之间，其实不是，只是到NDC空间之后才是这样，在之前的局部坐标，世界坐标，观察坐标中，坐标取值都没有这个限制的，而是直到投影变换才将坐标变换到一个能确定的但是与参数有关的范围，再进一步完成透视除法后才到NDC坐标有\[-1, 1]的与参数无关的范围。
+&emsp;&emsp; 完成P变换后，物体各个点坐标(x, y, z, w)都除以w分量，变为(x', y', z', 1)，且满足各个x,y,z各个分量都在\[-1, 1]之间（这个所谓的“透视除法”是OpenGL自动完成的，不需要编程中刻意去做，为什么满足这个坐标范围之后投影变换部分会讲）。NDC空间使用的是**左手坐标系**(我也不知道为什么突然改用左手坐标系了，这个后面投影的时候有用，先记住)，空间内的坐标与最终呈现图像的设备的尺寸，宽高比等都无关，使的图形能摆脱对支撑软件、具体物理设备的依赖性，也方便能在不同应用和不同系统之间交换图形信息。 一个初学者常有的误区是，坐标永远都应该在\[-1, 1]之间，其实不是，只是到NDC空间之后才是这样，在之前的局部坐标，世界坐标，观察坐标中，坐标取值都没有这个限制的，而是直到投影变换才将坐标变换到一个能确定的但是与参数有关的范围，再进一步完成透视除法后才到NDC坐标有\[-1, 1]的与参数无关的范围。
 
 ### 屏幕空间
 
@@ -315,7 +315,7 @@ public:
 <img src="./OrthoProjection2.gif">
 <a href="https://blog.csdn.net/sy95122/article/details/81198268">图片来源</a>
 
-&emsp;&emsp;正交投影相当于是把长方体世界空间“压缩”到一个正六面体空间中，如上图（注意第二幅图有一小问题，规范化设备坐标系也是右手坐标系，图中z轴应朝外）。相当于是缩放和平移变换的组合。这里直接给出正交投影矩阵：
+&emsp;&emsp;正交投影相当于是把长方体世界空间“压缩”到一个正六面体空间中，如上图（注意第二幅图，到NDC空间后变成了左手坐标系，Z轴正方形垂直纸面朝内）。相当于是缩放和平移变换的组合。这里直接给出正交投影矩阵：
 
 <img src="./formula/OrthoProjectionMatrix.jpg">
 
@@ -328,17 +328,46 @@ public:
 
 &emsp;&emsp;图中为从眼睛看到的空间，透视投影就是要将View Space下的坐标变换到上图中白色棱台内的空间中。该空间具有四个参数：**场视角**(FOV, Field of View，为图中红色标出的的角，用字母α表示)；**近平面Z坐标**(zNear，用字母n表示)，为棱台的形态学上顶面，同时限定了可见的点的最小Z坐标，**远平面Z坐标**(zFar，用字母f表示)，为棱台的形态学下底面，同时限定了可见的点的最大Z坐标；Z值超出zNear和zFar范围的最终点会被OpenGL裁剪掉。这也就是玩第一人称3D游戏时候，游戏里物体离你太远会看不到，而离得太近“贴在脸前”也会看不到的原因。最后还有一个参数为**窗口的宽高比**(Aspect Ratio，用字母r表示)，也就是上图中的Clip Window的宽高比，这个参数一般就等于glViewport指定的宽度和高度的比值。相当于透过Clip Window这个视窗去观察后面的物体。Clip Window也叫Projection Window。
 
+&emsp;&emsp;我们还是要明确一件事情，由于完成V变换后的空间仍然使用的是右手坐标系，即我们从Projection Window向“深处”观察，越深处的Z坐标数值越小，这里给出透视投影空间的侧视图和俯视图：
+
 <img src="./PerspectiveYZ.jpg">
-(透视投影空间侧视图，图来自Introduction to 3D Game Programming with Directx 11 Figure5.23)
+(透视投影空间侧视图，图来自Introduction to 3D Game Programming with Directx 11 Figure5.23，有修改，注意Z轴方向是-Z方向)
 
 
 <img src="./PerspectiveXZ.jpg">
-(投影空间俯视图，图来自Introduction to 3D Game Programming with Directx 11 Figure5.23)
+(投影空间俯视图，图来自Introduction to 3D Game Programming with Directx 11 Figure5.23，有修改注意Z轴方向是-Z方向)
 
 <img src="./formula/PerspectiveNote1.jpg">
 
 <img src="./formula/PerspectiveNote2.jpg">
 
+<img src="./formula/PerspectiveNote3.jpg">
+
+<img src="./formula/PerspectiveNote4.jpg">
+
+<img src="./formula/PerspectiveNote5.jpg">
+
+透视投影代码如下：
+
+```C++
+  //透视投影
+    Matrix4& perspective(float fovyAngle, float aspectRatio, float zNear, float zFar) {
+        assert(aspectRatio > 1e-8);
+        float cot2 = 1.0f / tanf(fovyAngle / 2.0f);
+        Matrix4 trans({
+            {cot2 / aspectRatio, 0, 0, 0},
+            {0, cot2, 0, 0},
+            {0, 0, -(zFar + zNear) / (zFar - zNear), -(2 * zFar * zNear) / (zFar - zNear)},
+            {0, 0, -1, 0}
+        });
+        multiple(trans);
+        return *this;
+    }
+```
+
+## 作者感言
+
+## 自测题目&启示
 
 ## 参考资料
 

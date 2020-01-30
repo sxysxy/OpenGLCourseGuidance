@@ -107,24 +107,22 @@ $P = \begin{bmatrix}
 
 \newpage 
 
-\section{Perspective Projection}
+在上图中我们设Projection Window的半高为1(高为2)，半宽则为宽高比$r$(宽为$2r$)
+由几何关系，我们有从眼睛到Projection Window的距离$d$满足$\tan\frac{\alpha}{2} = \frac{1}{d}$，从而$d = \cot\frac{\alpha}{2}$。
+%而上图中的$\beta$角满足$\tan\frac{\beta}{2} = \frac{r}{d} = r \tan\frac{\alpha}{2}$
 
-在上图中我们设Projection Window的半高位1(高为2)，半宽则为宽高比$r$(宽为$2r$)
-由几何关系，我们有从眼睛到Projection Window的距离$d$满足$\tan\frac{\alpha}{2} = \frac{1}{d}$，从而$d = \cot\frac{\alpha}{2}$，
-而上图中的$\beta$角满足$\tan\frac{\beta}{2} = \frac{r}{d} = r \tan\frac{\alpha}{2}$
-
-透视投影中，我们希望将一个坐标$(x,y,z)$变换到Projection Window上，也就是坐标变换为$(x', z', d)$
+透视投影中，我们希望将一个坐标$(x,y,z)$变换到Projection Window上，也就是坐标变换为$(x', z', -d)$(Projection Window在平面$z=-d$上)
 由相似三角形可得：
 
 \begin{align}
-\frac{x'}{d} &= \frac{x}{z} \\
-x' = \frac{xd}{z} &= \frac{x\cot\frac{\alpha}{2}}{z}
+\frac{x'}{-d} &= \frac{x}{z} \\
+x' = \frac{x(-d)}{z} &= -\frac{x\cot\frac{\alpha}{2}}{z}
 \end{align}
 
 同理有
 
 \begin{align}
-y' &= \frac{y\cot\frac{\alpha}{2}}{z}
+y' &= -\frac{y\cot\frac{\alpha}{2}}{z}
 \end{align}
 
 投影后的$x'$, $y'$若在Projection Widnow上，则满足：
@@ -137,12 +135,72 @@ y' &= \frac{y\cot\frac{\alpha}{2}}{z}
 对于变换后的$x$坐标，我们也希望把它归一化到$[-1,1]$区间内，则再令$x'$除以$r$，于是最终我们得到：
 
 \begin{align}
-    x' &= \frac{x\cot\frac{\alpha}{2}}{rz} \\
-    y' &= \frac{y\cot\frac{\alpha}{2}}{z} \\
+    x' &= -\frac{x\cot\frac{\alpha}{2}}{rz} \\
+    y' &= -\frac{y\cot\frac{\alpha}{2}}{z} \\
     -1& \le x' \le 1 \\
     -1&\le y' \le 1 \\
     n & \le z \le f 
 \end{align}
 
+\newpage
+
+其实到这里$x,y$的变换就已经算是完成了，但是还有很大的问题就是$x', y'$的表达式中含有透视投影的参数($\alpha,n,f,r$)之外的$z$。接下来我们想办法解决这个问题，并完成$z$坐标的投影。我们想到透视投影之后，OpenGL会进行一个透视除法将点$(x,y,z,w)$的四个分量都除以$w$分量，
+而$x', y'$的表达式也都只是在分母上有一个$z$，因此我们可以想办法让透视投影变换后的$w$分量等于$z$或者$-z$，而$x, y$的变换与$z$无关，于是我们构造一个这样的投影矩阵$P$，与$z$无关：
+
+\vspace{1em}
+
+$ P = \begin{bmatrix} \frac{\cot\frac{\alpha}{2}}{r} & 0 & 0 & 0 \\
+                      0 & \cot\frac{\alpha}{2} & 0 & 0 \\
+                      0 & 0 & A & B \\
+                      0 & 0 & -1 & 0 
+    \end {bmatrix}$
+
+
+矩阵对$x, y$的变换是已经确定了的，而对$z$的变换还不确定，因此我们设两个未知数$A$,$B$并在之后求解他们，先求得变换后的坐标：
+
+\vspace{1em}
+
+$\begin{bmatrix} \frac{\cot\frac{\alpha}{2}}{r} & 0 & 0 & 0 \\
+    0 & \cot\frac{\alpha}{2} & 0 & 0 \\
+    0 & 0 & A & B \\
+    0 & 0 & -1 & 0 
+\end {bmatrix} \begin{bmatrix} x \\ y \\ z \\ 1 \end{bmatrix} 
+= \begin{bmatrix} \frac{x\cot\frac{\alpha}{2}}{r} \\ {y\cot\frac{\alpha}{2}} \\ Az+B \\ -z\end{bmatrix}
+$
+
+之后进行透视除法，也就是所有分量除以$w$分量也就是$-z$得到
+\vspace{1em}
+
+
+$ \begin{bmatrix} -\frac{x\cot\frac{\alpha}{2}}{rz} \\ -\frac{y\cot\frac{\alpha}{2}}{z} \\ -(A+\frac{B}{z}) \\ 1\end{bmatrix} $
+
+可以看到，前两个分量的表达式与前面求得的$x',y'$是一致的。而对于$z$分量，
+我们可以看到投影变换并且进行透视除法之后的$z$
+坐标应该变为$-(A+\frac{B}{z})$。
+而且透视除法后进入NDC空间改用左手坐标系，那么近平面上$z = -n$时，应该对应NDC空间的$z$坐标$-1$，则$-(A+\frac{B}{z}) = -1$，
+而远平面上$z = -f$对应NDC空间$z=1$，则有$-(A+\frac{B}{z}) = 1$，于是得到方程组：
+
+\begin{align}
+-(A+\frac{B}{-n}) &= -1 \\
+-(A+\frac{B}{-f}) &= 1 
+\end{align}
+
+从而解得
+\begin{align}
+A &= -\frac{f+n}{f-n}\\
+B &= -\frac{2nf}{f-n} 
+\end{align}
+
+\newpage
+
+于是最终有投影矩阵$P$为：
+
+\vspace{1em}
+
+$ P = \begin{bmatrix} \frac{\cot\frac{\alpha}{2}}{r} & 0 & 0 & 0 \\
+    0 & \cot\frac{\alpha}{2} & 0 & 0 \\
+    0 & 0 & -\frac{f+n}{f-n} & -\frac{2nf}{f-n}  \\
+    0 & 0 & -1 & 0 
+\end {bmatrix}$
 
 \end{document}
