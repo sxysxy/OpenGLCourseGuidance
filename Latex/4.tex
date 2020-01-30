@@ -105,4 +105,44 @@ $P = \begin{bmatrix}
 0 & 0 & \frac{2}{Z_{far}-Z_{near}} & -\frac{Z_{far}+Z_{near}}{Z_{far}-Z_{near}}\\
 0 & 0 & 0 & 1\\ \end{bmatrix}$
 
+\newpage 
+
+\section{Perspective Projection}
+
+在上图中我们设Projection Window的半高位1(高为2)，半宽则为宽高比$r$(宽为$2r$)
+由几何关系，我们有从眼睛到Projection Window的距离$d$满足$\tan\frac{\alpha}{2} = \frac{1}{d}$，从而$d = \cot\frac{\alpha}{2}$，
+而上图中的$\beta$角满足$\tan\frac{\beta}{2} = \frac{r}{d} = r \tan\frac{\alpha}{2}$
+
+透视投影中，我们希望将一个坐标$(x,y,z)$变换到Projection Window上，也就是坐标变换为$(x', z', d)$
+由相似三角形可得：
+
+\begin{align}
+\frac{x'}{d} &= \frac{x}{z} \\
+x' = \frac{xd}{z} &= \frac{x\cot\frac{\alpha}{2}}{z}
+\end{align}
+
+同理有
+
+\begin{align}
+y' &= \frac{y\cot\frac{\alpha}{2}}{z}
+\end{align}
+
+投影后的$x'$, $y'$若在Projection Widnow上，则满足：
+\begin{align}
+ -r& \le x' \le r \\
+ -1&\le y' \le 1 \\
+ n & \le z \le f 
+\end{align}
+
+对于变换后的$x$坐标，我们也希望把它归一化到$[-1,1]$区间内，则再令$x'$除以$r$，于是最终我们得到：
+
+\begin{align}
+    x' &= \frac{x\cot\frac{\alpha}{2}}{rz} \\
+    y' &= \frac{y\cot\frac{\alpha}{2}}{z} \\
+    -1& \le x' \le 1 \\
+    -1&\le y' \le 1 \\
+    n & \le z \le f 
+\end{align}
+
+
 \end{document}

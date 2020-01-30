@@ -1,5 +1,3 @@
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.1/dist/katex.min.css">
-
 # 计算机图形学&OpenGL系列教程（四） 坐标系与坐标变换
 
 &emsp;&emsp;本次教程将围绕OpenGL中的坐标系和坐标变换，讲解有关的数学方面的内容，并完成所需的数学函数。本文的代码和数学原理都是课程期末考试的重点和难点，同学们一定要弄懂<del>请同学们找出大一上学期的线性代数课本以备不时之需</del>。
@@ -328,8 +326,18 @@ public:
 <img src="./Perspective3D.gif">
 <a href="https://blog.csdn.net/sy95122/article/details/81198268">图片来源</a>，有修改
 
-&emsp;&emsp;图中为从眼睛看到的空间，透视投影就是要将View Space下的坐标变换到上图中白色棱台内的空间中。该空间具有四个参数：**场视角**(FOV, Field of View，为图中红色标出的的角)；**近平面Z坐标**(zNear，用字母n表示)，为棱台的形态学上顶面，同时限定了可见的点的最小Z坐标，**远平面Z坐标**(zFar，用字母f表示)，为棱台的形态学下底面，同时限定了可见的点的最大Z坐标；Z值超出zNear和zFar范围的最终点会被OpenGL裁剪掉。这也就是玩第一人称3D游戏时候，游戏里物体离你太远会看不到，而离得太近“贴在脸前”也会看不到的原因。最后还有一个参数为**窗口的宽高比**(Aspect Ratio，用字母r表示)。
+&emsp;&emsp;图中为从眼睛看到的空间，透视投影就是要将View Space下的坐标变换到上图中白色棱台内的空间中。该空间具有四个参数：**场视角**(FOV, Field of View，为图中红色标出的的角，用字母α表示)；**近平面Z坐标**(zNear，用字母n表示)，为棱台的形态学上顶面，同时限定了可见的点的最小Z坐标，**远平面Z坐标**(zFar，用字母f表示)，为棱台的形态学下底面，同时限定了可见的点的最大Z坐标；Z值超出zNear和zFar范围的最终点会被OpenGL裁剪掉。这也就是玩第一人称3D游戏时候，游戏里物体离你太远会看不到，而离得太近“贴在脸前”也会看不到的原因。最后还有一个参数为**窗口的宽高比**(Aspect Ratio，用字母r表示)，也就是上图中的Clip Window的宽高比，这个参数一般就等于glViewport指定的宽度和高度的比值。相当于透过Clip Window这个视窗去观察后面的物体。Clip Window也叫Projection Window。
 
+<img src="./PerspectiveYZ.jpg">
+(透视投影空间侧视图，图来自Introduction to 3D Game Programming with Directx 11 Figure5.23)
+
+
+<img src="./PerspectiveXZ.jpg">
+(投影空间俯视图，图来自Introduction to 3D Game Programming with Directx 11 Figure5.23)
+
+<img src="./formula/PerspectiveNote1.jpg">
+
+<img src="./formula/PerspectiveNote2.jpg">
 
 
 ## 参考资料
