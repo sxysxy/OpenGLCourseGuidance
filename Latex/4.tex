@@ -95,4 +95,14 @@ $V = BA = \begin{bmatrix} S_x & S_y & S_z & 0 \\
                           0 & 0 & 0 & 1
 \end{bmatrix}$
 
+\newpage 
+
+设投影前坐标范围的最大值和最小值分别为$(X_{max}, Y_{max}, Z_{far})$和$(X_{min}, Y_{min}, Z_{near})$，投影矩阵为
+
+$P = \begin{bmatrix} 
+\frac{2}{X_{max}-X_{min}} & 0 & 0 & -\frac{X_{max}+X_{min}}{X_{max}-X_{min}}\\
+0 & \frac{2}{Y_{max}-Y_{min}} & 0 & -\frac{Y_{max}+Y_{min}}{Y_{max}-Y_{min}}\\
+0 & 0 & \frac{2}{Z_{far}-Z_{near}} & -\frac{Z_{far}+Z_{near}}{Z_{far}-Z_{near}}\\
+0 & 0 & 0 & 1\\ \end{bmatrix}$
+
 \end{document}

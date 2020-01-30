@@ -309,7 +309,28 @@ public:
 
 #### 正交投影
 
+&emsp;&emsp;
+
+<img src="./OrthoProjection.gif"> 
+<a href="https://blog.csdn.net/sy95122/article/details/81198268">图片来源</a>
+
+<img src="./OrthoProjection2.gif">
+<a href="https://blog.csdn.net/sy95122/article/details/81198268">图片来源</a>
+
+&emsp;&emsp;正交投影相当于是把长方体世界空间“压缩”到一个正六面体空间中，如上图（注意第二幅图有一小问题，规范化设备坐标系也是右手坐标系，图中z轴应朝外）。相当于是缩放和平移变换的组合。这里直接给出正交投影矩阵：
+
+<img src="./OrthoProjectionMatrix.jpg">
+
 #### 透视投影
+
+&emsp;&emsp;透视投影的原理就要复杂得多，它符合人眼观察物体的特点，透视投影是增强图形立体感的关健：
+
+<img src="./Perspective3D.gif">
+<a href="https://blog.csdn.net/sy95122/article/details/81198268">图片来源</a>，有修改
+
+&emsp;&emsp;图中为从眼睛看到的空间，透视投影就是要将View Space下的坐标变换到上图中白色棱台内的空间中。该空间具有四个参数：**场视角**(FOV, Field of View，为图中红色标出的的角)；**近平面Z坐标**(zNear，用字母n表示)，为棱台的形态学上顶面，同时限定了可见的点的最小Z坐标，**远平面Z坐标**(zFar，用字母f表示)，为棱台的形态学下底面，同时限定了可见的点的最大Z坐标；Z值超出zNear和zFar范围的最终点会被OpenGL裁剪掉。这也就是玩第一人称3D游戏时候，游戏里物体离你太远会看不到，而离得太近“贴在脸前”也会看不到的原因。最后还有一个参数为**窗口的宽高比**(Aspect Ratio，用字母r表示)。
+
+
 
 ## 参考资料
 
