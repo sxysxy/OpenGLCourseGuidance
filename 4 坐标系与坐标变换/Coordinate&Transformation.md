@@ -265,6 +265,46 @@ public:
 
 ### V变换
 
+&emsp; &emsp; 首先给出View Space的坐标系统示意：
+
+<img src="./formula/ViewView.jpg">
+
+&emsp; &emsp;图中的圆（为了使得看起来有立体感进行了变形）是摄像机的镜头，或者眼睛的位置，正前方看向目标target。
+
+&emsp; &emsp; 我们先进行一个位移变换，设摄像机的位置在(Ex, Ey, Ez)，那么空间中任意一点(x, y, z)，应该对摄像机具有一个相对的坐标(x - Ex, y - Ey, z - Ez)，因此变换矩阵为：
+
+<img src="./formula/ViewEye.jpg>
+
+&emsp; &emsp; 然后进行摄像机视角的变换，用target的位置减去eye的位置可以得到一个向量F，还需要两个与之正交的向量可以构成三维空间内的一组基。我们需要知道指向眼睛上方的一个方向向量D(不一定是正上方)，又F叉乘D可以得到眼睛的正右方向S(用右手定则判定叉乘结果向量方向)，再又S和F叉乘得到眼睛的正上方方向向量U。这样F,S,U三个线性无关且相互正交的向量构成三维空间内的一组基，F,S,U都单位化后可以构造基变换过渡矩阵A（单位化是为了保证图形不变形，注意Z方向的问题，因为右手坐标系Z轴正方向垂直纸面向外，导致我们观察物体的时候总是朝向Z轴负方向看的，因此下面的式子中对此有修正）。
+
+<img src="./formula/ViewSUF.jpg">
+
+<img src="./formula/ViewMatrixNote.jpg">
+
+&emsp; &emsp; 代码如下：
+
+```C++
+    //函数接受三个参数，eyePosition给出眼睛的空间坐标
+    //                 targetPosition给出眼睛看向的目标的空间坐标
+    //                 upDirection给出指向眼睛上方的方向向量
+    Matrix4& view(const Point3& eyePosition, const Point3& targetPosition, const Vector3& upDirection) {
+        Vector3 F, S, U;
+        sub<3>(targetPosition, eyePosition, F);
+        normalize<3>(F);
+        cross(F, upDirection, S);
+        normalize<3>(S);
+        cross(S, F, U);
+        Matrix4 trans({
+            {S[0], S[1], S[2],   -dot<3>(S, eyePosition)},
+            {U[0], U[1], U[2],   -dot<3>(U, eyePosition)},
+            {-F[0], -F[1], -F[2], dot<3>(F, eyePosition)},
+            {0, 0, 0, 1}
+        });
+        multiple(trans);
+        return *this;
+    }
+```
+
 ### P变换
 
 #### 正交投影

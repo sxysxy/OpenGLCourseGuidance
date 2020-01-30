@@ -55,5 +55,44 @@ $\begin{bmatrix} x+T_x \\ y+T_y \\ z+T_z \\ 1 \end{bmatrix} = \begin{bmatrix}
     0 & 0 & 0 & 1 
     \end{bmatrix} \begin{bmatrix} x \\ y \\ z \\ 1 \end{bmatrix}$
 
+\vspace{3em}
+
+$A = \begin{bmatrix} 1 & 0 & 0 & -E_x \\
+            0 & 1 & 0 & -E_y \\
+            0 & 0 & 1 & -E_z \\
+            0   &   0 &    0 & 1 
+\end{bmatrix}$
+
+\vspace{3em}
+
+
+$B = \begin{bmatrix} S_x & S_y & S_z & 0 \\
+                     U_x & U_y & U_z & 0 \\
+                     -F_x & -F_y & -F_z & 0 \\
+                     0   &   0 &    0 & 1 
+
+ \end{bmatrix}$
+
+ \vspace {3em}
+
+ 将这两个变换组合到一起就成了$V$变换矩阵。先进行变换$A$，
+ 再进行变换$B$，则$V=BA$。（因为向量在矩阵右边与矩阵相乘，所以先进行的变换后乘。例如向量$\vec p$，则由于矩阵乘法满足结合律，有
+ $BA\vec p = B(A\vec p)$，先进行了变换$A$，再对变换后的$A\vec p$进行$B$的变换）
+
+$V = BA = \begin{bmatrix} S_x & S_y & S_z & 0 \\
+    U_x & U_y & U_z & 0 \\
+    -F_x & -F_y & -F_z & 0 \\
+    0   &   0 &    0 & 1 
+
+\end{bmatrix} \begin{bmatrix} 1 & 0 & 0 & -E_x \\
+    0 & 1 & 0 & -E_y \\
+    0 & 0 & 1 & -E_z \\
+    0   &   0 &    0 & 1 
+\end{bmatrix}
+= \begin{bmatrix} S_x & S_y & S_z & -\vec S \cdot \vec E \\
+                          U_x & U_y & U_z & -\vec U \cdot \vec E \\
+                          -F_x & -F_y & -F_z & \vec F \cdot \vec E \\
+                          0 & 0 & 0 & 1
+\end{bmatrix}$
 
 \end{document}
