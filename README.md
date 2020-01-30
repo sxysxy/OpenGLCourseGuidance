@@ -23,5 +23,5 @@
 
 ## <li> <a href="https://github.com/sxysxy/OpenGLCourseGuidance/blob/master/4%20%E5%9D%90%E6%A0%87%E7%B3%BB%E4%B8%8E%E5%9D%90%E6%A0%87%E5%8F%98%E6%8D%A2/Coordinate%26Transformation.md">计算机图形学&OpenGL系列教材（四） 坐标系与坐标变换</a>
 
-&emsp;&emsp;<a style="background-color: #ef1f4f; font-size: 15px; color: white; font-weight: bold">理论</a> <a style="background-color: #2f3f9f; font-size: 15px; color: white; font-weight: bold">实践</a> 重难点；讲述OpenGL中图形的坐标和坐标变换，并给出公式的推导方法，不依赖GLM等数学库给出代码实现
+&emsp;&emsp;<a style="background-color: #ef1f4f; font-size: 15px; color: white; font-weight: bold">理论</a> <a style="background-color: #2f3f9f; font-size: 15px; color: white; font-weight: bold">实践</a> 重难点；讲述OpenGL中图形的坐标和坐标变换，并给出公式的推导方法，不依赖GLM等数学库给出代码实现。本次教程因为github的限制导致排版上出了问题，只有在宽屏设备上才能较好呈现，请尽量使用电脑查阅。
 
