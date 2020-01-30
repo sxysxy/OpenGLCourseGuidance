@@ -319,7 +319,7 @@ public:
 
 &emsp;&emsp;正交投影相当于是把长方体世界空间“压缩”到一个正六面体空间中，如上图（注意第二幅图有一小问题，规范化设备坐标系也是右手坐标系，图中z轴应朝外）。相当于是缩放和平移变换的组合。这里直接给出正交投影矩阵：
 
-<img src="./OrthoProjectionMatrix.jpg">
+<img src="./formula/OrthoProjectionMatrix.jpg">
 
 #### 透视投影
 
