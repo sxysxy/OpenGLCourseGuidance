@@ -76,6 +76,43 @@ public:
         data[0][0] = data[1][1] = data[2][2] = data[3][3] = 1.0;
         return *this;
     }
+    //向量点乘
+    template<int N, class vectorType = float[N]>
+    static float dot(const vectorType &v1, const vectorType &v2) {
+        float res = 0.0;
+        for (int i = 0; i < N; i++)
+            res += v1[i] * v2[i];
+        return res;
+    }
+    //向量-
+    template<int N, class vectorType = float[N]>
+    static void sub(const vectorType& v1, const vectorType& v2, vectorType& res) {
+        for (int i = 0; i < N; i++)
+            res[i] = v1[i] - v2[i];
+    }
+    //三维向量叉积
+    static void cross(const Vector3& v1, const Vector3& v2, Vector3 &res) {
+        res[0] = v1[1] * v2[2] - v1[2] * v2[1];
+        res[1] = v1[2] * v2[0] - v1[0] * v2[2];
+        res[2] = v1[0] * v2[1] - v1[1] * v2[0];
+    }
+    //向量长度
+    template<int N, class vectorType = float[N]>
+    static inline float length(const vectorType &vec) {
+        float sum = 0.0;
+        for (int i = 0; i < N; i++)
+            sum += vec[i] * vec[i];
+        return sqrtf(sum);
+    }
+    //向量归一化(取单位向量)
+    template<int N, class vectorType = float[N]>
+    static void normalize(vectorType& vec) {
+        float len = length<N>(vec);
+        if (len < 1e-8)  //consider as a zero vector 
+            return;
+        for (int i = 0; i < N; i++)
+            vec[i] /= len;
+    }
 };
 ```
 
@@ -181,7 +218,33 @@ public:
 
 <img src="./formula/RotateCirclePane.jpg">
 
+<img src="./formula/RotateNote3.jpg">
+
+于是可以写出作用旋转变换的代码：
+
+```C++
+    Matrix4& rotate(const Vector3& axis, float angle) {
+        float c = cosf(angle), s = sinf(angle);
+        Vector3 N;
+        memcpy(N, axis, sizeof(N));
+        normalize<3>(N);
+        float xy = N[0] * N[1];
+        float xz = N[0] * N[2];
+        float yz = N[1] * N[2];
+        Matrix4 trans({
+            {c+(1-c)*N[0]*N[0], (1-c)*xy+s*N[2], (1-c)*xz-s*N[1], 0},
+            {(1-c)*xy-s*N[2], c+(1-c)*N[1]*N[1], (1-c)*yz+s*N[0], 0},
+            {(1-c)*xz+s*N[1], (1-c)*yz-s*N[0], c+(1-c)*N[2]*N[2], 0},
+            {              0,               0,                 0, 1}
+        });
+        multiple(trans);
+        return *this;
+    }
+```
+
 #### 平移(T变换)
+
+<img src="./formula/TranslateNote.jpg">
 
 ### V变换
 
