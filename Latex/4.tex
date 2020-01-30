@@ -1,0 +1,28 @@
+%!TEX program=xelatex
+\documentclass[UTF8]{ctexart}
+\usepackage{amsmath}        
+\usepackage{geometry}
+\geometry{left=2.5cm, right=2.5cm, top=2.5cm, bottom=2.5cm}  %重设页边距(默认的页边距太大，不美观)
+\usepackage{xeCJK}      %字体包
+%\usepackage{fontspec}
+\begin{document}
+
+旋转变换则要复杂许多，一个比较好的旋转模型是，绕一个给定的轴$\vec n$，
+围绕$\vec n$旋转$\theta$角。下面给出旋转变换的原理和公式推导方法：
+假设给出的转轴$\vec n$长度为1(即$\vec n$是转轴方向上的单位向量)，
+要旋转的向量(点也成立，这里以向量为例)为$\vec v$，
+完成旋转后的向量为$R_n(\vec v)$。
+
+首先将$\vec v$分解为两部分，一部分平行于
+$\vec n$而另一部分垂直于
+$\vec n$，
+平行于$\vev n$的分量即为
+$\vec v$在$\vec n$上的投影
+$Proj_n(\vec v)$，
+则另一分量可以得出$\vec{v_{\perp}} = \vec{v} - Proj_n(\vec v)$
+
+
+
+
+
+\end{document}
